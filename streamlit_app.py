@@ -11,4 +11,4 @@ headers = {
 
 response = requests.get(BREVO_API_URL, headers=headers)
 print(response.status_code)
-print(response.json() 
+print(response.json())
