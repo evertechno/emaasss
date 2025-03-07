@@ -36,15 +36,18 @@ if uploaded_file is not None and subject and body:
         else:
             email_df = pd.read_excel(uploaded_file)
 
-        email_list = email_df['email'].tolist()
+        if 'email' not in email_df.columns:
+            st.error("Uploaded file does not contain a column named 'email'.")
+        else:
+            email_list = email_df['email'].tolist()
 
-        if st.button("Send Emails"):
-            for email in email_list:
-                status_code, response = send_email(email, subject, body)
-                if status_code == 201:
-                    st.success(f"Email sent to {email}")
-                else:
-                    st.error(f"Failed to send email to {email}: {response}")
+            if st.button("Send Emails"):
+                for email in email_list:
+                    status_code, response = send_email(email, subject, body)
+                    if status_code == 201:
+                        st.success(f"Email sent to {email}")
+                    else:
+                        st.error(f"Failed to send email to {email}: {response}")
     except Exception as e:
         st.error(f"Error: {e}")
 else:
